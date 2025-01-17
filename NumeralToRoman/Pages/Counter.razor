@@ -1,5 +1,7 @@
 ﻿@page "/counter"
 
+@using NumeralToRoman.Extentions
+
 <PageTitle>Counter</PageTitle>
 
 <h1>Numeral to roman</h1>
@@ -15,36 +17,11 @@
 </div>
  
 @code {
-    private int NumeralValue;
+    private int NumeralValue = 0;
     private string RomanValue = string.Empty;
 
     private void ConvertToRoman(int num)
     {
-        var result = string.Empty;
-        var romanNumeralsKeyValue = new Dictionary<string, int>()
-        {
-            {"M", 1000},
-            {"CM", 900},
-            {"D", 500},
-            {"CD", 400},
-            {"C", 100},
-            {"XC", 90},
-            {"L", 50},
-            {"XL", 40},
-            {"X", 10},
-            {"IX", 9},
-            {"V", 5},
-            {"IV", 4},
-            {"I", 1}
-        };
-
-        foreach (var romanNumeral in romanNumeralsKeyValue)
-        {
-            var numberOfRepetitions = num / romanNumeral.Value; // Nombre de fois que le chiffre romain sera répété
-            result += string.Concat(Enumerable.Repeat(romanNumeral.Key, numberOfRepetitions)); // Création de la séquence
-            num %= romanNumeral.Value; // Récupération du modulo pour la suite de la conversion
-        }
-
-        RomanValue = result;
+        RomanValue = num.ToRoman();
     }
 }
