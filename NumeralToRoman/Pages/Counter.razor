@@ -2,17 +2,49 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<h1>Numeral to roman</h1>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
+<div class="d-flex flex-column gap-4">
+    <div class="d-flex flex-row gap-2 align-items-center">
+        <InputNumber @bind-Value="NumeralValue" max="8999" min="1" step="1" />
+        <p class="m-0">=> @RomanValue</p>
+    </div>
+    <div>
+        <button class="btn btn-primary" @onclick="() => ConvertToRoman(NumeralValue)">Convert</button>
+    </div>
+</div>
+ 
 @code {
-    private int currentCount = 0;
+    private int NumeralValue;
+    private string RomanValue = string.Empty;
 
-    private void IncrementCount()
+    private void ConvertToRoman(int num)
     {
-        currentCount++;
+        var result = string.Empty;
+        var romanNumeralsKeyValue = new Dictionary<string, int>()
+        {
+            {"M", 1000},
+            {"CM", 900},
+            {"D", 500},
+            {"CD", 400},
+            {"C", 100},
+            {"XC", 90},
+            {"L", 50},
+            {"XL", 40},
+            {"X", 10},
+            {"IX", 9},
+            {"V", 5},
+            {"IV", 4},
+            {"I", 1}
+        };
+
+        foreach (var romanNumeral in romanNumeralsKeyValue)
+        {
+            var numberOfRepetitions = num / romanNumeral.Value; // Nombre de fois que le chiffre romain sera répété
+            result += string.Concat(Enumerable.Repeat(romanNumeral.Key, numberOfRepetitions)); // Création de la séquence
+            num %= romanNumeral.Value; // Récupération du modulo pour la suite de la conversion
+        }
+
+        RomanValue = result;
     }
 }
