@@ -28,6 +28,8 @@ public static class IntExtentions
             var numberOfRepetitions = num / romanNumeral.Value; // Nombre de fois que le chiffre romain sera répété
             result += string.Concat(Enumerable.Repeat(romanNumeral.Key, numberOfRepetitions)); // Création de la séquence
             num %= romanNumeral.Value; // Récupération du modulo pour la suite de la conversion
+
+            if (num == 0) { break; }
         }
 
         return result;
